@@ -14,6 +14,7 @@ import '@/assets/styles.scss';
 const app = createApp(App);
 
 ApiService.init(app);
+app.use(createPinia());
 app.use(router);
 app.use(PrimeVue, {
     theme: {
@@ -25,6 +26,5 @@ app.use(PrimeVue, {
 });
 app.use(ToastService);
 app.use(ConfirmationService);
-app.use(createPinia());
 
 app.mount('#app');
