@@ -40,7 +40,12 @@ const model = ref([
         label: 'Mascotas',
         items: [
             {
-                label: 'Mascotas',
+                label: 'Agregar Mascota',
+                icon: 'pi pi-fw pi-plus',
+                to: '/admin/new-pet'
+            },
+            {
+                label: 'Mis Mascotas',
                 icon: 'pi pi-fw pi-heart',
                 to: '/admin/pets'
             },
