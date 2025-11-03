@@ -237,7 +237,7 @@ export default {
     async loadProfile() {
       this.loading = true
       try {
-        const { data } = await ApiService.get(`/user/1/`)
+        const { data } = await ApiService.get(`/auth/me`)
         
         this.formData = {
           first_name: data.first_name || '',
@@ -352,7 +352,7 @@ export default {
           payload.password = this.formData.password
         }
 
-        const { data } = await ApiService.patch(`/user/edit-client/1`, payload)
+        const { data } = await ApiService.patch(`/user/edit-client`, payload)
         
         this.toast.add({ 
           severity: 'success', 

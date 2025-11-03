@@ -39,6 +39,22 @@ const router = createRouter({
                         middleware: "auth"
                     }
                 },
+                {
+                    path: '/admin/new-pet',
+                    name: 'new-pet',
+                    component: () => import('@/views/pets/NewPet.vue'),
+                    meta: {
+                        middleware: "auth"
+                    }
+                },
+                {
+                    path: '/admin/pets',
+                    name: 'pets',
+                    component: () => import('@/views/pets/ListPets.vue'),
+                    meta: {
+                        middleware: "auth"
+                    }
+                },
 
             ]
         },
