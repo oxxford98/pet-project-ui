@@ -18,6 +18,30 @@ const router = createRouter({
                 },
             ]
         },
+         {
+            path: '/admin',
+            component: AppLayout,
+            children: [
+
+                {
+                    path: '/admin/users',
+                    name: 'users',
+                    component: () => import('@/views/users/ListUsers.vue'),
+                    meta: {
+                        middleware: "auth"
+                    }
+                },
+                {
+                    path: '/admin/profile',
+                    name: 'profile',
+                    component: () => import('@/views/users/ProfileUser.vue'),
+                    meta: {
+                        middleware: "auth"
+                    }
+                },
+
+            ]
+        },
         {
             path: '/',
             name: 'landing',

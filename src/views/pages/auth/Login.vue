@@ -1,28 +1,56 @@
 <script>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
 import { ref } from 'vue';
+import ApiService from "@/service/ApiService";
+import { useAuthStore } from "@/stores/auth.js";
 
-const email = ref('');
-const password = ref('');
-const checked = ref(false);
+const store = useAuthStore();
 
 export default {
-    data(){
+    name: 'Login',
+    data() {
         return {
-            email,
-            password,
-            checked,
+            store,
+            email: '',
+            password: '',
+            checked: false,
+            textLogin: 'Ingresar',
+            statusButton: true,
+            errorMessage: '',
             showError: false
-        }
+        };
     },
     methods: {
-        setLogin() {
-            console.log("Intentando login");
-            if (email.value == 'admin@admin.com' && password.value == 'admin123') {
-                this.$router.push({ name: "dashboard" });
-            } else {
-                this.showError = true;
+        attempLogin() {
+            this.statusButton = false;
+            this.textLogin = 'Iniciando Sesión...';
+            this.showError = false;
+            this.errorMessage = '';
+
+            let payload = {
+                email: this.email,
+                password: this.password
             }
+
+            ApiService.post("/auth/login", payload)
+                .then(({ data }) => {
+                    console.log(data);
+                    if (data.user) {
+                        store.getApiToken(data);
+                        this.$router.push({ name: "dashboard" });
+                    } else {
+                        this.statusButton = true;
+                        this.textLogin = 'Ingresar';
+                        this.errorMessage = "Usuario o contraseña incorrectos";
+                        this.showError = true;
+                    }
+                })
+                .catch(({ response }) => {
+                    this.statusButton = true;
+                    this.textLogin = 'Ingresar';
+                    this.errorMessage = "Usuario o contraseña incorrectos";
+                    this.showError = true;
+                });
         }
     }
 }
@@ -55,9 +83,10 @@ export default {
                             </div>
                             <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">¿Olvidaste tu contraseña?</span>
                         </div>
-                        <Message v-if="showError" class="mb-2" severity="error">Usuario y/o contraseña erroneos</Message>
-                        <!-- <Button label="Sign In" class="w-full" as="router-link" to="/"></Button> -->
-                        <Button label="Ingresar" class="w-full" @click="setLogin"></Button>
+                        
+                        <Message v-if="showError" class="mb-2" severity="error">{{ errorMessage }}</Message>
+                        
+                        <Button :disabled="!statusButton" :label="textLogin" class="w-full" @click="attempLogin"></Button>
                     </div>
                 </div>
             </div>
