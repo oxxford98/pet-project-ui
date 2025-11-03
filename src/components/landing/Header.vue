@@ -6,12 +6,12 @@
         <span class="font-semibold text-2xl">CanEduca</span>
       </router-link>
 
-      <!-- Desktop nav -->
+<!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-8 text-lg">
-        <router-link to="#" class="hover:opacity-80 border-b-2 border-transparent hover:border-primary-500">Inicio</router-link>
-        <router-link to="#" class="hover:opacity-80 border-b-2 border-transparent hover:border-primary-500">Quienes somos</router-link>
-        <router-link to="#" class="hover:opacity-80 border-b-2 border-transparent hover:border-primary-500">Planes</router-link>
-        <router-link to="#" class="hover:opacity-80 border-b-2 border-transparent hover:border-primary-500">Contacto</router-link>
+        <button @click="$emit('cambiar-seccion', 'inicio')" class="hover:text-green-700">Inicio</button>
+        <button @click="$emit('cambiar-seccion', 'quienes')" class="hover:text-green-700">Quiénes somos</button>
+        <button @click="$emit('cambiar-seccion', 'planes')" class="hover:text-green-700">Planes</button>
+        <button @click="$emit('cambiar-seccion', 'contacto')" class="hover:text-green-700">Contacto</button>
       </nav>
 
       <!-- Right actions (hidden on mobile) -->
@@ -29,21 +29,23 @@
     </div>
 
     <!-- Mobile menu (overlay) -->
-    <div v-if="menuOpen" class="md:hidden absolute left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50">
-      <div class="container mx-auto px-6 py-4">
-        <nav class="flex flex-col gap-3">
-          <router-link @click.native="closeMenu" to="#" class="block py-2">Inicio</router-link>
-          <router-link @click.native="closeMenu" to="#" class="block py-2">Quienes somos</router-link>
-          <router-link @click.native="closeMenu" to="#" class="block py-2">Planes</router-link>
-          <router-link @click.native="closeMenu" to="#" class="block py-2">Contacto</router-link>
-        </nav>
+    <transition name="slide-right">
+      <div v-if="menuOpen" class="md:hidden absolute left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50">
+        <div class="container mx-auto px-6 py-4">
+          <nav class="flex flex-col gap-3">
+            <router-link @click.native="closeMenu" to="#" class="block py-2">Inicio</router-link>
+            <router-link @click.native="closeMenu" to="#" class="block py-2">Quiénes somos</router-link>
+            <router-link @click.native="closeMenu" to="#" class="block py-2">Planes</router-link>
+            <router-link @click.native="closeMenu" to="#" class="block py-2">Contacto</router-link>
+          </nav>
 
-        <div class="mt-4 flex flex-col gap-2">
-          <router-link @click.native="closeMenu" to="/auth/login" class="w-full text-center px-4 py-2 bg-primary-500 text-white rounded">Iniciar sesión</router-link>
-          <router-link @click.native="closeMenu" to="/auth/register" class="w-full text-center px-4 py-2 border border-primary-500 rounded">Registrarse</router-link>
+          <div class="mt-4 flex flex-col gap-2">
+            <router-link @click.native="closeMenu" to="/auth/login" class="w-full text-center px-4 py-2 bg-primary-500 text-white rounded">Iniciar sesión</router-link>
+            <router-link @click.native="closeMenu" to="/auth/register" class="w-full text-center px-4 py-2 border border-primary-500 rounded">Registrarse</router-link>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
 
     <hr class="border-t-1 border-green-600 my-2 w-3/4 mx-auto rounded" />
   </header>
@@ -67,4 +69,6 @@ function closeMenu() {
 .container{max-width:1100px}
 :root{--primary-color:#2563eb}
 .bg-primary-500{background-color:var(--primary-color)}
+
+
 </style>
