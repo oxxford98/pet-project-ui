@@ -52,11 +52,11 @@ const router = createRouter({
             name: 'test-landing',
             component: () => import('@/views/landing/Test.vue')
         },
-        {
-            path: '/contact',
-            name: 'contact',
-            component: () => import('@/views/Contact.vue')
-        },
+        // {
+        //     path: '/contact',
+        //     name: 'contact',
+        //     component: () => import('@/views/Contact.vue')
+        // },
         {
             path: '/pages/notfound',
             name: 'notfound',
