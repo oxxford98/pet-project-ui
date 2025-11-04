@@ -152,14 +152,7 @@ export default {
         this.selectedPetId = pet.id
         this.showPlans = true
       } else {
-        // Ver matrícula activa
-        // this.$router.push({ name: 'pet-enrollment-detail', params: { id: pet.id } })
-        this.toast.add({
-          severity: 'success',
-          summary: 'Matrícula activa',
-          detail: `Abriendo matrícula activa de ${pet.name}`,
-          life: 2000
-        })
+        this.$router.push({ name: 'enrollment-detail', params: { canineId: pet.id } })
       }
     },
      async onEnrolled() { 

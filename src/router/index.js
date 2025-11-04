@@ -49,6 +49,14 @@ const router = createRouter({
                         middleware: "auth"
                     }
                 },
+                {
+                    path: '/admin/enrollments/:canineId',
+                    name: 'enrollment-detail',
+                    component: () => import('@/views/pets/EnrollmentDetail.vue'),
+                    meta: {
+                        middleware: "auth"
+                    }
+                },
 
             ]
         },
