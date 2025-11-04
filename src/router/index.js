@@ -68,6 +68,11 @@ const router = createRouter({
             name: 'test-landing',
             component: () => import('@/views/landing/Test.vue')
         },
+        // {
+        //     path: '/contact',
+        //     name: 'contact',
+        //     component: () => import('@/views/Contact.vue')
+        // },
         {
             path: '/pages/notfound',
             name: 'notfound',
@@ -78,6 +83,11 @@ const router = createRouter({
             path: '/auth/login',
             name: 'login',
             component: () => import('@/views/pages/auth/Login.vue')
+        },
+        {
+            path: '/auth/register',
+            name: 'register',
+            component: () => import('@/views/pages/auth/Register.vue')
         },
         {
             path: '/auth/access',
