@@ -24,12 +24,18 @@
         <template #empty>
           No hay usuarios para mostrar
         </template>
-        <Column field="username" header="Usuario" sortable />
         <Column field="first_name" header="Nombre" sortable />
+        <Column field="second_name" header="Segundo Nombre" sortable />
         <Column field="last_name" header="Apellido" sortable />
+        <Column field="second_last_name" header="Segundo Apellido" sortable />
+        <Column field="identification" header="Identificación" sortable />
         <Column field="email" header="Email" sortable />
         <Column field="cellphone" header="Teléfono" sortable />
-        <Column field="role" header="Rol" sortable />
+        <Column header="Rol" sortable>
+          <template #body="{ data }">
+            {{ roleLabel(data.role) }}
+          </template>
+        </Column>
         <Column header="Acciones">
           <template #body="{data}">
             <Button
@@ -141,6 +147,10 @@ export default {
         detail: message, 
         life: 3000 
       })
+    },
+    roleLabel(val) {
+      const map = { 1: 'Director', 2: 'Administrador', 4: 'Entrenador' }
+      return map[val] ?? 'N/D'
     },
     confirmDeleteUser(user) {
       this.confirm.require({
