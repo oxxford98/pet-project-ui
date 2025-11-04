@@ -58,12 +58,11 @@
         <FloatLabel class="my-4">
           <InputText 
             class="w-full" 
-            id="username" 
-            v-model="formData.username" 
+            id="address" 
+            v-model="formData.address" 
             :disabled="!isEditing"
-            :invalid="validate && !formData.username"
           />
-          <label for="username">Usuario *</label>
+          <label for="address">Dirección </label>
         </FloatLabel>
 
         <FloatLabel class="my-4">
@@ -228,6 +227,7 @@ export default {
         email: '',
         cellphone: '',
         identification: '',
+        address: '',
         password: '',
         password_confirm: ''
       }
@@ -247,7 +247,8 @@ export default {
           username: data.username || '',
           email: data.email || '',
           cellphone: data.cellphone || '',
-          identification: data.identification_document || '',
+          identification: data.identification || '',
+          address: data.address || '',
           password: '',
           password_confirm: ''
         }
@@ -344,7 +345,8 @@ export default {
           username: this.formData.username,
           email: this.formData.email,
           cellphone: this.formData.cellphone,
-          identification_document: this.formData.identification
+          identification: this.formData.identification,
+          address: this.formData.address
         }
 
         // Solo incluir password si se está cambiando

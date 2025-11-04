@@ -81,18 +81,18 @@ export default {
 
             // Payload mínimo para registro
             const payload = {
-                nombre: nombre.value,
-                apellidos: apellidos.value,
-                celular: celular.value,
+                first_name: nombre.value,
+                last_name: apellidos.value,
+                cellphone: celular.value,
                 email: email.value,
-                password: password.value
+                password: password.value,
             };
 
             // Intentar enviar al backend si ApiService está disponible
             try {
                 if (ApiService && ApiService.post) {
                     // Ajusta la ruta según tu API (ej: 'auth/register')
-                    const res = await ApiService.post('auth/register', payload);
+                    const res = await ApiService.post('user/create-client', payload);
                     // Si la API devuelve éxito, redirigir a login
                     showSuccess.value = 'Registro exitoso. Redirigiendo al login...';
                     setTimeout(() => {
