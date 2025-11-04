@@ -73,7 +73,6 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     async function getApiToken(data) {
-        localStorage.setItem('trd', JSON.stringify(data.trd));
         setAuth(data);
         JwtService.saveToken(data.access);
     }

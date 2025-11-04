@@ -28,6 +28,42 @@ export default {
         }
     },
     methods: {
+        validatePassword() {
+            if (password.value.length < 6) {
+                showError.value = 'La contraseña debe tener al menos 6 caracteres.';
+                return false;
+            }
+            // Validar mayúsculas, minúsculas, números y símbolos
+            const hasUpperCase = /[A-Z]/.test(password.value);
+            const hasLowerCase = /[a-z]/.test(password.value);
+            const hasNumber = /\d/.test(password.value);
+            const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password.value);
+            
+            if (!hasUpperCase) {
+                showError.value = 'La contraseña debe contener al menos una letra mayúscula.';
+                return false;
+            }
+            
+            if (!hasLowerCase) {
+                showError.value = 'La contraseña debe contener al menos una letra minúscula.';
+                return false;
+            }
+            
+            if (!hasNumber) {
+                showError.value = 'La contraseña debe contener al menos un número.';
+                return false;
+            }
+            
+            if (!hasSymbol) {
+                showError.value = 'La contraseña debe contener al menos un símbolo especial.';
+                return false;
+            }
+            if (password.value !== confirmPassword.value) {
+                showError.value = 'Las contraseñas no coinciden.';
+                return false;
+            }
+            return true;
+        },
         async setRegister() {
             // Validaciones básicas
             showError.value = '';
@@ -38,13 +74,8 @@ export default {
                 return;
             }
 
-            if (password.value.length < 6) {
-                showError.value = 'La contraseña debe tener al menos 6 caracteres.';
-                return;
-            }
-
-            if (password.value !== confirmPassword.value) {
-                showError.value = 'Las contraseñas no coinciden.';
+            let isPasswordValid = this.validatePassword();
+            if (!isPasswordValid) {
                 return;
             }
 
@@ -93,6 +124,7 @@ export default {
                         <img src="@/assets/images/logo.png" alt="Logo CanEduca" class="w-48 h-48 mb-4" />
                         <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-2">Crea tu cuenta</div>
                         <span class="text-muted-color font-medium">Regístrate para continuar</span>
+                        <span class="text-muted-color font-medium">¿Ya tienes una cuenta? <router-link to="/auth/login" class="font-medium text-primary">Inicia sesión</router-link></span>
                     </div>
 
 

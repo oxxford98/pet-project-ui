@@ -22,9 +22,9 @@
         <p class="text-sm mt-2">Tel: <a href="tel:+1234567890" class="text-primary-500">+1 234 567 890</a></p>
 
         <div class="flex gap-3 mt-4">
-          <a href="#" aria-label="Facebook" class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center">f</a>
-          <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center">ig</a>
-          <a href="#" aria-label="Twitter" class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center">t</a>
+          <Button as="a" severity="info" rounded href="#" icon="fa-brands fa-facebook-f" size="small" aria-label="Facebook"></Button>
+          <Button as="a" severity="danger" rounded href="#" icon="fa-brands fa-instagram" size="small" aria-label="Instagram"></Button>
+          <Button as="a" severity="contrast" rounded href="#" icon="fa-brands fa-x-twitter" size="small" aria-label="Twitter"></Button>
         </div>
       </div>
     </div>

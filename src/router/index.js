@@ -1,11 +1,12 @@
 import AppLayout from '@/layout/AppLayout.vue';
+import { useAuthStore } from '@/stores/auth';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/dashboard',
+            path: '/admin',
             component: AppLayout,
             children: [
                 {
@@ -16,13 +17,6 @@ const router = createRouter({
                         middleware: "auth"
                     }
                 },
-            ]
-        },
-         {
-            path: '/admin',
-            component: AppLayout,
-            children: [
-
                 {
                     path: '/admin/users',
                     name: 'users',
@@ -63,11 +57,6 @@ const router = createRouter({
             name: 'landing',
             component: () => import('@/views/landing/Landing.vue')
         },
-        {
-            path: '/test',
-            name: 'test-landing',
-            component: () => import('@/views/landing/Test.vue')
-        },
         // {
         //     path: '/contact',
         //     name: 'contact',
@@ -100,6 +89,39 @@ const router = createRouter({
             component: () => import('@/views/pages/auth/Error.vue')
         }
     ]
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
+
+    // Set current page title
+    // document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_TITLE}`;
+
+    try {
+        await authStore.verifyAuth();
+        if (to.fullPath === '/auth/login') {
+            if (authStore.isAuthenticated) {
+                next({ name: 'dashboard' });
+            }
+        }
+        if (to.meta.middleware === 'auth') {
+            // If route requires authentication
+            if (!authStore.isAuthenticated) {
+                return next({ name: 'login' });
+            }
+        }
+
+        // Scroll page to top on every route change
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+
+        next();
+    } catch (error) {
+        next({ name: 'landing' });
+    }
 });
 
 export default router;

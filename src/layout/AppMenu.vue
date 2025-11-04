@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '@/stores/auth.js';
 import AppMenuItem from './AppMenuItem.vue';
 
 const store = useAuthStore();
@@ -9,7 +9,7 @@ const store = useAuthStore();
 const model = ref([
     {
         label: 'Inicio',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
     },
     {
         label: 'Usuarios',

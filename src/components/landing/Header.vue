@@ -33,10 +33,10 @@
       <div v-if="menuOpen" class="md:hidden absolute left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50">
         <div class="container mx-auto px-6 py-4">
           <nav class="flex flex-col gap-3">
-            <router-link @click.native="closeMenu" to="#" class="block py-2">Inicio</router-link>
-            <router-link @click.native="closeMenu" to="#" class="block py-2">Quiénes somos</router-link>
-            <router-link @click.native="closeMenu" to="#" class="block py-2">Planes</router-link>
-            <router-link @click.native="closeMenu" to="#" class="block py-2">Contacto</router-link>
+            <button @click="$emit('cambiar-seccion', 'inicio'); closeMenu()" class="block py-2 text-left hover:text-green-700">Inicio</button>
+            <button @click="$emit('cambiar-seccion', 'quienes'); closeMenu()" class="block py-2 text-left hover:text-green-700">Quiénes somos</button>
+            <button @click="$emit('cambiar-seccion', 'planes'); closeMenu()" class="block py-2 text-left hover:text-green-700">Planes</button>
+            <button @click="$emit('cambiar-seccion', 'contacto'); closeMenu()" class="block py-2 text-left hover:text-green-700">Contacto</button>
           </nav>
 
           <div class="mt-4 flex flex-col gap-2">

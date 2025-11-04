@@ -66,6 +66,7 @@ export default {
                         <img src="@/assets/images/logo.png" alt="Logo CanEduca" class="w-60 h-60 mb-4" />
                         <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-2">Bienvenido!</div>
                         <span class="text-muted-color font-medium">Inicia sesión para continuar</span>
+                        <span class="text-muted-color font-medium">¿Aún no tienes una cuenta? <router-link to="/auth/register" class="font-medium text-primary">Regístrate</router-link></span>
                     </div>
 
 
