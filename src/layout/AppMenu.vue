@@ -5,8 +5,26 @@ import { useAuthStore } from '@/stores/auth.js';
 import AppMenuItem from './AppMenuItem.vue';
 
 const store = useAuthStore();
+const user = store.user.user;
 
-const model = ref([
+console.log('Usuario en AppMenu:', user);
+let roles = [
+    {
+        value: 2,
+        name: 'ADMIN',
+    },
+    {
+        value: 1,
+        name: 'DIRECTOR',
+    },
+    {
+        value: 3,
+        name: 'CLIENT',
+    }
+];
+let rol = roles.find(r => r.value === user.role);
+
+const baseModel = ref([
     {
         label: 'Inicio',
         items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
@@ -24,7 +42,8 @@ const model = ref([
                 icon: 'pi pi-fw pi-user',
                 to: '/admin/clients'
             },
-        ]
+        ],
+        permissions: ['ADMIN', 'DIRECTOR']
     },
     {
         label: 'Perfil',
@@ -34,7 +53,8 @@ const model = ref([
                 icon: 'pi pi-fw pi-id-card',
                 to: '/admin/profile'
             },
-        ]
+        ],
+        permissions: ['CLIENT']
     },
     {
         label: 'Mascotas',
@@ -49,10 +69,18 @@ const model = ref([
                 icon: 'pi pi-fw pi-heart',
                 to: '/admin/pets'
             },
-        ]
+        ],
+        permissions: ['CLIENT']
     },
-    
 ]);
+const model = computed(() => {
+    return baseModel.value.filter(section => {
+        if (!section.permissions) {
+            return true;
+        }
+        return section.permissions.includes(rol.name);
+    });
+});
 </script>
 
 <template>
