@@ -27,30 +27,50 @@ export default {
             this.showError = false;
             this.errorMessage = '';
 
-            let payload = {
-                email: this.email,
-                password: this.password
+            const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
+            // Validar que reCAPTCHA esté cargado
+            if (!window.grecaptcha) {
+                this.statusButton = true;
+                this.textLogin = 'Ingresar';
+                this.errorMessage = 'Error de validación reCAPTCHA. Actualiza la página e inténtalo de nuevo.';
+                this.showError = true;
+                return;
             }
 
-            ApiService.post("/auth/login", payload)
-                .then(({ data }) => {
-                    console.log(data);
-                    if (data.user) {
-                        store.getApiToken(data);
-                        this.$router.push({ name: "dashboard" });
-                    } else {
-                        this.statusButton = true;
-                        this.textLogin = 'Ingresar';
-                        this.errorMessage = "Usuario o contraseña incorrectos";
-                        this.showError = true;
-                    }
-                })
-                .catch(({ response }) => {
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(siteKey, { action: 'login' }).then((token) => {
+                    const payload = {
+                        email: this.email,
+                        password: this.password,
+                        recaptcha: token // ← igual que en PQRSD
+                    };
+
+                    ApiService.post('/auth/login', payload)
+                        .then(({ data }) => {
+                            if (data.user) {
+                                this.store.getApiToken(data);
+                                this.$router.push({ name: 'dashboard' });
+                            } else {
+                                this.statusButton = true;
+                                this.textLogin = 'Ingresar';
+                                this.errorMessage = 'Usuario o contraseña incorrectos';
+                                this.showError = true;
+                            }
+                        })
+                        .catch(() => {
+                            this.statusButton = true;
+                            this.textLogin = 'Ingresar';
+                            this.errorMessage = 'Usuario o contraseña incorrectos';
+                            this.showError = true;
+                        });
+                }).catch(() => {
                     this.statusButton = true;
                     this.textLogin = 'Ingresar';
-                    this.errorMessage = "Usuario o contraseña incorrectos";
+                    this.errorMessage = 'No fue posible obtener el reCAPTCHA. Inténtalo de nuevo.';
                     this.showError = true;
                 });
+            });
         }
     }
 }
