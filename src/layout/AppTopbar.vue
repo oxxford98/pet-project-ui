@@ -1,7 +1,7 @@
 <script>
 import { useLayout } from '@/layout/composables/layout';
 import AppConfigurator from './AppConfigurator.vue';
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '@/stores/auth.js';
 
 const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
 
@@ -12,18 +12,18 @@ export default {
             toggleDarkMode,
             isDarkTheme,
             store: null
-        }
+        };
+    },
+    mounted() {
+        this.store = useAuthStore();
     },
     methods: {
         logout() {
             this.store.logout();
-            this.$router.push({ name: "landing" });
+            this.$router.push({ name: 'landing' });
         }
-    },
-    mounted() {
-        this.store = useAuthStore();
     }
-}
+};
 </script>
 
 <template>
@@ -46,8 +46,15 @@ export default {
             </div>
 
             <button
+                v-styleclass="{
+                    selector: '@next',
+                    enterFromClass: 'hidden',
+                    enterActiveClass: 'animate-scalein',
+                    leaveToClass: 'hidden',
+                    leaveActiveClass: 'animate-fadeout',
+                    hideOnOutsideClick: true
+                }"
                 class="layout-topbar-menu-button layout-topbar-action"
-                v-styleclass="{ selector: '@next', enterFromClass: 'hidden', enterActiveClass: 'animate-scalein', leaveToClass: 'hidden', leaveActiveClass: 'animate-fadeout', hideOnOutsideClick: true }"
             >
                 <i class="pi pi-ellipsis-v"></i>
             </button>

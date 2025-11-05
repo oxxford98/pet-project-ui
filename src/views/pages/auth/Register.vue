@@ -14,7 +14,7 @@ const showError = ref('');
 const showSuccess = ref('');
 
 export default {
-    data(){
+    data() {
         return {
             nombre,
             apellidos,
@@ -25,7 +25,7 @@ export default {
             checked,
             showError,
             showSuccess
-        }
+        };
     },
     methods: {
         validatePassword() {
@@ -38,22 +38,22 @@ export default {
             const hasLowerCase = /[a-z]/.test(password.value);
             const hasNumber = /\d/.test(password.value);
             const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password.value);
-            
+
             if (!hasUpperCase) {
                 showError.value = 'La contraseña debe contener al menos una letra mayúscula.';
                 return false;
             }
-            
+
             if (!hasLowerCase) {
                 showError.value = 'La contraseña debe contener al menos una letra minúscula.';
                 return false;
             }
-            
+
             if (!hasNumber) {
                 showError.value = 'La contraseña debe contener al menos un número.';
                 return false;
             }
-            
+
             if (!hasSymbol) {
                 showError.value = 'La contraseña debe contener al menos un símbolo especial.';
                 return false;
@@ -74,7 +74,7 @@ export default {
                 return;
             }
 
-            let isPasswordValid = this.validatePassword();
+            const isPasswordValid = this.validatePassword();
             if (!isPasswordValid) {
                 return;
             }
@@ -85,7 +85,7 @@ export default {
                 last_name: apellidos.value,
                 cellphone: celular.value,
                 email: email.value,
-                password: password.value,
+                password: password.value
             };
 
             // Intentar enviar al backend si ApiService está disponible
@@ -111,41 +111,98 @@ export default {
             }
         }
     }
-}
+};
 </script>
 
 <template>
     <FloatingConfigurator />
-    <div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
+    <div
+        class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden"
+    >
         <div class="flex flex-col items-center justify-center">
-            <div style="border-radius: 56px; padding: 0.2rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
+            <div
+                style="
+                    border-radius: 56px;
+                    padding: 0.2rem;
+                    background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);
+                "
+            >
                 <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
-                        <div class="flex flex-col items-center justify-center text-center mb-8">
+                    <div class="flex flex-col items-center justify-center text-center mb-8">
                         <img src="@/assets/images/logo.png" alt="Logo CanEduca" class="w-48 h-48 mb-4" />
                         <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-2">Crea tu cuenta</div>
                         <span class="text-muted-color font-medium">Regístrate para continuar</span>
-                        <span class="text-muted-color font-medium">¿Ya tienes una cuenta? <router-link to="/auth/login" class="font-medium text-primary">Inicia sesión</router-link></span>
+                        <span class="text-muted-color font-medium">¿Ya tienes una cuenta?
+                            <router-link to="/auth/login" class="font-medium text-primary">Inicia sesión</router-link></span>
                     </div>
-
 
                     <div>
                         <label for="nombres" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Nombre</label>
-                        <InputText id="nombre" type="text" placeholder="Nombre completo" class="w-full md:w-[30rem] mb-8" v-model="nombre" />
+                        <InputText
+                            id="nombre"
+                            v-model="nombre"
+                            type="text"
+                            placeholder="Nombre completo"
+                            class="w-full md:w-[30rem] mb-8"
+                        />
 
-                        <label for="apellidos" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Apellidos</label>
-                        <InputText id="apellidos" type="text" placeholder="Apellidos completos" class="w-full md:w-[30rem] mb-8" v-model="apellidos" />
+                        <label
+                            for="apellidos"
+                            class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
+                        >Apellidos</label>
+                        <InputText
+                            id="apellidos"
+                            v-model="apellidos"
+                            type="text"
+                            placeholder="Apellidos completos"
+                            class="w-full md:w-[30rem] mb-8"
+                        />
 
                         <label for="celular" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Celular</label>
-                        <InputText id="celular" type="text" placeholder="Número de celular" class="w-full md:w-[30rem] mb-8" v-model="celular" />
+                        <InputText
+                            id="celular"
+                            v-model="celular"
+                            type="text"
+                            placeholder="Número de celular"
+                            class="w-full md:w-[30rem] mb-8"
+                        />
 
                         <label for="email1" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Email</label>
-                        <InputText id="email1" type="text" placeholder="Email address" class="w-full md:w-[30rem] mb-8" v-model="email" />
+                        <InputText
+                            id="email1"
+                            v-model="email"
+                            type="text"
+                            placeholder="Email address"
+                            class="w-full md:w-[30rem] mb-8"
+                        />
 
-                        <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Contraseña</label>
-                        <Password id="password1" v-model="password" placeholder="Contraseña" :toggleMask="true" class="mb-4" fluid :feedback="false"></Password>
+                        <label
+                            for="password1"
+                            class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2"
+                        >Contraseña</label>
+                        <Password
+                            id="password1"
+                            v-model="password"
+                            placeholder="Contraseña"
+                            :toggle-mask="true"
+                            class="mb-4"
+                            fluid
+                            :feedback="false"
+                        ></Password>
 
-                        <label for="confirmPassword" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Confirmar contraseña</label>
-                        <Password id="confirmPassword" v-model="confirmPassword" placeholder="Confirmar contraseña" :toggleMask="true" class="mb-4" fluid :feedback="false"></Password>
+                        <label
+                            for="confirmPassword"
+                            class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2"
+                        >Confirmar contraseña</label>
+                        <Password
+                            id="confirmPassword"
+                            v-model="confirmPassword"
+                            placeholder="Confirmar contraseña"
+                            :toggle-mask="true"
+                            class="mb-4"
+                            fluid
+                            :feedback="false"
+                        ></Password>
 
                         <Message v-if="showError" class="mb-2" severity="error">{{ showError }}</Message>
                         <Message v-if="showSuccess" class="mb-2" severity="success">{{ showSuccess }}</Message>

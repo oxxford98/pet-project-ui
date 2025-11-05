@@ -8,21 +8,21 @@ const store = useAuthStore();
 const user = store.user.user;
 
 console.log('Usuario en AppMenu:', user);
-let roles = [
+const roles = [
     {
         value: 2,
-        name: 'ADMIN',
+        name: 'ADMIN'
     },
     {
         value: 1,
-        name: 'DIRECTOR',
+        name: 'DIRECTOR'
     },
     {
         value: 3,
-        name: 'CLIENT',
+        name: 'CLIENT'
     }
 ];
-let rol = roles.find(r => r.value === user.role);
+const rol = roles.find(r => r.value === user.role);
 
 const baseModel = ref([
     {
@@ -41,7 +41,7 @@ const baseModel = ref([
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-user',
                 to: '/admin/clients'
-            },
+            }
         ],
         permissions: ['ADMIN', 'DIRECTOR']
     },
@@ -52,7 +52,7 @@ const baseModel = ref([
                 label: 'Mi Perfil',
                 icon: 'pi pi-fw pi-id-card',
                 to: '/admin/profile'
-            },
+            }
         ],
         permissions: ['CLIENT']
     },
@@ -68,10 +68,10 @@ const baseModel = ref([
                 label: 'Mis Mascotas',
                 icon: 'pi pi-fw pi-heart',
                 to: '/admin/pets'
-            },
+            }
         ],
         permissions: ['CLIENT']
-    },
+    }
 ]);
 const model = computed(() => {
     return baseModel.value.filter(section => {

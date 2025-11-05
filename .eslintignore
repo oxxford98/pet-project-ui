@@ -1,0 +1,38 @@
+# Directorios de dependencias
+node_modules/
+dist/
+build/
+
+# Archivos de configuración
+*.config.js
+*.config.mjs
+*.config.ts
+vite.config.*
+tailwind.config.js
+postcss.config.js
+
+# Archivos generados
+coverage/
+.nyc_output/
+
+# Archivos de entorno
+.env
+.env.local
+.env.production
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Public assets (no necesitan linting)
+public/

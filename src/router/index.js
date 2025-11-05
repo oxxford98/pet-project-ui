@@ -14,7 +14,7 @@ const router = createRouter({
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -22,7 +22,7 @@ const router = createRouter({
                     name: 'users',
                     component: () => import('@/views/users/ListUsers.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -30,7 +30,7 @@ const router = createRouter({
                     name: 'profile',
                     component: () => import('@/views/users/ProfileUser.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -38,7 +38,7 @@ const router = createRouter({
                     name: 'new-pet',
                     component: () => import('@/views/pets/NewPet.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -46,7 +46,7 @@ const router = createRouter({
                     name: 'pets',
                     component: () => import('@/views/pets/ListPets.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -54,10 +54,9 @@ const router = createRouter({
                     name: 'enrollment-detail',
                     component: () => import('@/views/pets/EnrollmentDetail.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
-                },
-
+                }
             ]
         },
         {

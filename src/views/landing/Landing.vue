@@ -1,24 +1,24 @@
 <script setup lang="ts">
-    import Header from '@/components/landing/Header.vue'
-    import Footer from '@/components/landing/Footer.vue'
-    import { ref } from 'vue'
+import Header from '@/components/landing/Header.vue';
+import Footer from '@/components/landing/Footer.vue';
+import { ref } from 'vue';
 
 // Variable reactiva que indica la sección actual (para referencia)
-const seccionActual = ref('inicio')
+const seccionActual = ref('inicio');
 
 function cambiarSeccion(nombre) {
-    seccionActual.value = nombre
-    
+    seccionActual.value = nombre;
+
     // Hacer scroll suave a la sección correspondiente con offset para el header fijo
-    const elemento = document.getElementById(nombre)
+    const elemento = document.getElementById(nombre);
     if (elemento) {
-        const headerHeight = 96 // Altura del header fijo (mismo valor que en CSS .page)
-        const elementPosition = elemento.offsetTop - headerHeight
-        
+        const headerHeight = 96; // Altura del header fijo (mismo valor que en CSS .page)
+        const elementPosition = elemento.offsetTop - headerHeight;
+
         window.scrollTo({
             top: elementPosition,
             behavior: 'smooth'
-        })
+        });
     }
 }
 </script>
@@ -31,7 +31,7 @@ function cambiarSeccion(nombre) {
         <!-- Sección de Inicio -->
         <section id="inicio" class="section-spacing">
             <h1 class="text-5xl font-bold titulo">Bienvenido a CanEduca</h1>
-            <p class="text-2xl  mt-4">"Formamos vínculos, no solo obediencia."</p>
+            <p class="text-2xl mt-4">"Formamos vínculos, no solo obediencia."</p>
             <img src="@/assets/images/fondo.png" alt="Fondo" class="mx-auto w-3/4 rounded mt-4" />
         </section>
 
@@ -40,17 +40,28 @@ function cambiarSeccion(nombre) {
             <h1 class="text-5xl font-bold">¿Quiénes Somos?</h1>
             <div class="flex flex-col md:flex-row items-center gap-6 mt-3">
                 <p class="text-2xl md:w-1/2 font-sans-serif">
-                    En CanEduca creemos que la educación transforma vidas, tanto humanas como caninas.
-                    Somos un equipo apasionado por el bienestar animal, dedicado a enseñar a los tutores a comprender, guiar y cuidar a sus perros de manera respetuosa y amorosa.
+                    En CanEduca creemos que la educación transforma vidas, tanto humanas como caninas. Somos un equipo
+                    apasionado por el bienestar animal, dedicado a enseñar a los tutores a comprender, guiar y cuidar a
+                    sus perros de manera respetuosa y amorosa.
                 </p>
-                <img src="@/assets/images/perro1.jpg" alt="Perro" class="w-full md:w-1/2 rounded shadow-lg object-cover" />
+                <img
+                    src="@/assets/images/perro1.jpg"
+                    alt="Perro"
+                    class="w-full md:w-1/2 rounded shadow-lg object-cover"
+                />
             </div>
             <div class="flex flex-col md:flex-row items-center gap-6 mt-3">
-                <img src="@/assets/images/perro2.jpg" alt="Perro" class="w-full md:w-1/2 rounded shadow-lg object-cover" />
+                <img
+                    src="@/assets/images/perro2.jpg"
+                    alt="Perro"
+                    class="w-full md:w-1/2 rounded shadow-lg object-cover"
+                />
                 <p class="text-2xl md:w-1/2 font-sans-serif">
-                    Nuestro objetivo es fortalecer el vínculo entre las personas y sus mascotas a través de la educación positiva, la empatía y el respeto por la naturaleza canina.
-                    Contamos con entrenadores certificados, especialistas en comportamiento canino y profesionales en bienestar animal que trabajan con técnicas modernas, sin castigos, para crear entornos felices y equilibrados.
-                    En CanEduca no solo formamos perros, formamos familias más unidas.
+                    Nuestro objetivo es fortalecer el vínculo entre las personas y sus mascotas a través de la educación
+                    positiva, la empatía y el respeto por la naturaleza canina. Contamos con entrenadores certificados,
+                    especialistas en comportamiento canino y profesionales en bienestar animal que trabajan con técnicas
+                    modernas, sin castigos, para crear entornos felices y equilibrados. En CanEduca no solo formamos
+                    perros, formamos familias más unidas.
                 </p>
             </div>
         </section>
@@ -59,118 +70,122 @@ function cambiarSeccion(nombre) {
         <section id="planes" class="section-spacing">
             <div>
                 <h1 class="text-6xl font-bold">Planes de Entrenamiento</h1>
-                <p class="text-xl mt-2 mb-6">Ofrecemos programas personalizados para cada perro y familia. Selecciona la duración y el tipo de transporte al matricularte.</p>
-                <br>
+                <p class="text-xl mt-2 mb-6">
+                    Ofrecemos programas personalizados para cada perro y familia. Selecciona la duración y el tipo de
+                    transporte al matricularte.
+                </p>
+                <br />
             </div>
             <div>
-                    <!-- Imagen transporte a la izquierda -->
-                    <div class="w-full md:w-1/2 mx-auto mb-6">
-                        <img src="@/assets/images/transporte.jpg" alt="Transporte" class="w-full h-64 md:h-auto object-cover rounded shadow-md" />
+                <!-- Imagen transporte a la izquierda -->
+                <div class="w-full md:w-1/2 mx-auto mb-6">
+                    <img src="@/assets/images/transporte.jpg" alt="Transporte" class="w-full h-64 md:h-auto object-cover rounded shadow-md" />
+                </div>
+
+                <!-- Planes a la derecha -->
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <!-- Plan corto: 1 mes -->
+                    <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-4xl font-semibold mb-2">1 Mes</h3>
+                            <div class="text-3xl font-bold text-primary-500 mb-3">$250,000</div>
+                            <ul class="text-sm mb-3 space-y-1">
+                                <li>
+                                    <i class="fa fa-check text-green-500"></i>
+                                    Entrenamiento básico
+                                </li>
+                                <li>
+                                    <i class="fa fa-check text-green-500"></i>
+                                    1 sesión semanal
+                                </li>
+                                <li>
+                                    <i class="fa fa-check text-green-500"></i>
+                                    Evaluación inicial
+                                </li>
+                            </ul>
+                            <div class="text-sm mb-3">
+                                <div>No incluye transporte</div>
+                            </div>
+                        </div>
+                        <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                     </div>
 
-                    <!-- Planes a la derecha -->
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        <!-- Plan corto: 1 mes -->
-                        <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-4xl font-semibold mb-2">1 Mes</h3>
-                                <div class="text-3xl font-bold text-primary-500 mb-3">$250,000</div>
-                                <ul class="text-sm mb-3 space-y-1">
-                                    <li>
-                                        <i class="fa fa-check text-green-500"></i>
-                                        Entrenamiento básico
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-check text-green-500"></i>
-                                        1 sesión semanal
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-check text-green-500"></i>
-                                        Evaluación inicial
-                                    </li>
-                                </ul>
-                                <div class="text-sm mb-3">
-                                    <div>No incluye transporte</div>
-                                </div>
+                    <!-- 1 Bimestre -->
+                    <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-4xl font-semibold mb-2">1 Bimestre</h3>
+                            <div class="text-3xl font-bold text-primary-500 mb-3">$450,000</div>
+                            <ul class="text-sm mb-3 space-y-1">
+                                <li>Entrenamiento básico + refuerzo</li>
+                                <li>2 sesiones semanales</li>
+                                <li>Asesoría a tutores</li>
+                            </ul>
+                            <div class="text-sm mb-3">
+                                <div>No incluye transporte</div>
                             </div>
-                            <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                         </div>
+                        <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
+                    </div>
 
-                        <!-- 1 Bimestre -->
-                        <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-4xl font-semibold mb-2">1 Bimestre</h3>
-                                <div class="text-3xl font-bold text-primary-500 mb-3">$450,000</div>
-                                <ul class="text-sm mb-3 space-y-1">
-                                    <li>Entrenamiento básico + refuerzo</li>
-                                    <li>2 sesiones semanales</li>
-                                    <li>Asesoría a tutores</li>
-                                </ul>
-                                <div class="text-sm mb-3">
-                                    <div>No incluye transporte</div>
-                                </div>
+                    <!-- 1 Trimestre -->
+                    <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-4xl font-semibold mb-2">1 Trimestre</h3>
+                            <div class="text-3xl font-bold text-primary-500 mb-3">$650,000</div>
+                            <ul class="text-sm mb-3 space-y-1">
+                                <li>Programa intensivo</li>
+                                <li>3 sesiones semanales</li>
+                                <li>Seguimiento personalizado</li>
+                            </ul>
+                            <div class="text-sm mb-3">
+                                <div>No incluye transporte</div>
                             </div>
-                            <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                         </div>
+                        <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
+                    </div>
 
-                        <!-- 1 Trimestre -->
-                        <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-4xl font-semibold mb-2">1 Trimestre</h3>
-                                <div class="text-3xl font-bold text-primary-500 mb-3">$650,000</div>
-                                <ul class="text-sm mb-3 space-y-1">
-                                    <li>Programa intensivo</li>
-                                    <li>3 sesiones semanales</li>
-                                    <li>Seguimiento personalizado</li>
-                                </ul>
-                                <div class="text-sm mb-3">
-                                    <div>No incluye transporte</div>
-                                </div>
+                    <!-- 6 Meses -->
+                    <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-4xl font-semibold mb-2">6 Meses</h3>
+                            <div class="text-3xl font-bold text-primary-500 mb-3">$1,100,000</div>
+                            <ul class="text-sm mb-3 space-y-1">
+                                <li>Programa avanzado</li>
+                                <li>Sesiones personalizadas</li>
+                                <li>Acceso a talleres</li>
+                            </ul>
+                            <div class="text-sm mb-3">
+                                <div class="text-xl font-semibold mb-2">Transporte incluido</div>
                             </div>
-                            <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                         </div>
+                        <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
+                    </div>
 
-                        <!-- 6 Meses -->
-                        <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-4xl font-semibold mb-2">6 Meses</h3>
-                                <div class="text-3xl font-bold text-primary-500 mb-3">$1,100,000</div>
-                                    <ul class="text-sm mb-3 space-y-1">
-                                        <li>Programa avanzado</li>
-                                        <li>Sesiones personalizadas</li>
-                                        <li>Acceso a talleres</li>
-                                    </ul>
-                                <div class="text-sm mb-3">
-                                    <div class="text-xl font-semibold mb-2">Transporte incluido</div>
-                                </div>
+                    <!-- 1 Año -->
+                    <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-4xl font-semibold mb-2">1 Año</h3>
+                            <div class="text-3xl font-bold text-primary-500 mb-3">$1,900,000</div>
+                            <ul class="text-sm mb-3 space-y-1">
+                                <li>Programa integral</li>
+                                <li>Soporte continuo</li>
+                                <li>Acceso prioritario a talleres</li>
+                            </ul>
+                            <div class="text-sm mb-3">
+                                <div class="text-xl font-semibold mb-2">Transporte incluido</div>
                             </div>
-                            <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                         </div>
-
-                        <!-- 1 Año -->
-                        <div class="border rounded-lg p-4 shadow-sm bg-gray-200 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-4xl font-semibold mb-2">1 Año</h3>
-                                <div class="text-3xl font-bold text-primary-500 mb-3">$1,900,000</div>
-                                <ul class="text-sm mb-3 space-y-1">
-                                    <li>Programa integral</li>
-                                    <li>Soporte continuo</li>
-                                    <li>Acceso prioritario a talleres</li>
-                                </ul>
-                                <div class="text-sm mb-3">
-                                    <div class="text-xl font-semibold mb-2">Transporte incluido</div>
-                                </div>
-                            </div>
-                            <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
-                        </div>
+                        <router-link to="/auth/register" class="inline-block w-full text-center bg-primary-500 text-white py-2 rounded mt-auto">Matricular</router-link>
                     </div>
                 </div>
-        </section>
+            </div>
+        </section></div>
+    </section>
 
-        <!-- Sección de Contacto -->
-        <section id="contacto" class="section-spacing">
-            <div class="max-w-6xl mx-auto bg-white dark:bg-surface-900 rounded-xl shadow-lg overflow-hidden p-6">
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="section-spacing">
+        <div class="max-w-6xl mx-auto bg-white dark:bg-surface-900 rounded-xl shadow-lg overflow-hidden p-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 <!-- Left: Hero / Intro -->
                 <div class="lg:col-span-2 p-6">
@@ -238,8 +253,8 @@ function cambiarSeccion(nombre) {
                     </div>
                 </aside>
             </div>
-            </div>
-        </section>
+        </div>
+    </section>
     </div>
     <Footer />
 </template>
@@ -284,5 +299,3 @@ h2 {
     padding-top: 96px; /* ajusta según la altura real del header */
 }
 </style>
-
-

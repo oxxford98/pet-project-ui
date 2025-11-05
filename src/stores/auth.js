@@ -1,9 +1,9 @@
-import ApiService from "@/service/ApiService";
-import JwtService from "@/service/JwtService.js";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import ApiService from '@/service/ApiService';
+import JwtService from '@/service/JwtService.js';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useAuthStore = defineStore("auth", () => {
+export const useAuthStore = defineStore('auth', () => {
     const errors = ref({});
     const user = ref({});
     const isAuthenticated = ref(false);
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function verifyToken() {
-        if (!!JwtService.getToken()) {
+        if (JwtService.getToken()) {
             purgeAuth();
             // getApiToken();
         }
@@ -42,29 +42,29 @@ export const useAuthStore = defineStore("auth", () => {
             if (JwtService.getToken()) {
                 ApiService.setHeader();
                 ApiService.get(`/auth/me`)
-                .then(({ data }) => {
-                    console.log(data);
-                    if (data.id) {
-                        console.log("autenticando desde me")
-                        let dataFlow = {
-                            "user": data,
-                            "access": JwtService.getToken(),
-                        };
-                        setAuth(dataFlow);
-                        resolve(data);
-                    } else {
+                    .then(({ data }) => {
+                        console.log(data);
+                        if (data.id) {
+                            console.log('autenticando desde me');
+                            const dataFlow = {
+                                user: data,
+                                access: JwtService.getToken()
+                            };
+                            setAuth(dataFlow);
+                            resolve(data);
+                        } else {
+                            isAuthenticated.value = false;
+                            purgeAuth();
+                            resolve();
+                            // reject(new Error("Authentication failed"));
+                        }
+                    })
+                    .catch(({ response }) => {
+                        console.log(response);
                         isAuthenticated.value = false;
                         purgeAuth();
                         resolve();
-                        // reject(new Error("Authentication failed"));
-                    }
-                })
-                .catch(({ response }) => {
-                    console.log(response);
-                    isAuthenticated.value = false;
-                    purgeAuth();
-                    resolve();
-                });
+                    });
             } else {
                 purgeAuth();
                 resolve();

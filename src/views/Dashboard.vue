@@ -1,12 +1,10 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-    <div class="grid grid-cols-12 gap-8">
-        <Card>
-            <template #content>
-                Hola mundo desde el dashboard
-            </template>
-        </Card>
-    </div>
+    <Card>
+        <template #content>
+            <h2 class="text-xl font-semibold">Bienvenido(a) a CanEduca</h2>
+            <p class="mt-4 text-gray-600">Aquí tendremos a futuro las estadísticas de uso.</p>
+        </template>
+    </Card>
 </template>

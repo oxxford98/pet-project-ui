@@ -1,4 +1,4 @@
-const ID_TOKEN_KEY = "id_token_school";
+const ID_TOKEN_KEY = 'id_token_school';
 
 /**
  * @description get token form localStorage
@@ -11,7 +11,7 @@ export const getToken = () => {
  * @description save token into localStorage
  * @param token: string
  */
-export const saveToken = (token) => {
+export const saveToken = token => {
     window.localStorage.setItem(ID_TOKEN_KEY, token);
 };
 
