@@ -180,8 +180,8 @@ function cambiarSeccion(nombre) {
                     </div>
                 </div>
             </div>
-        </section></div>
-    </section>
+        </section>
+    </div>
 
     <!-- Sección de Contacto -->
     <section id="contacto" class="section-spacing">
@@ -255,7 +255,6 @@ function cambiarSeccion(nombre) {
             </div>
         </div>
     </section>
-    </div>
     <Footer />
 </template>
 <style>
