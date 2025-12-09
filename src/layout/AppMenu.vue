@@ -71,7 +71,30 @@ const baseModel = ref([
             }
         ],
         permissions: ['CLIENT']
-    }
+    },
+    {
+        label: 'Asistencias',
+        items: [
+            {
+                label: 'Asistencias',
+                icon: 'pi pi-fw pi-check-square',
+                to: '/admin/attendances'
+            },
+        ],
+        permissions: ['ADMIN', 'DIRECTOR', 'TRAINER']
+    },
+    {
+        label: 'Matriculas',
+        items: [
+            {
+                label: 'Matriculas',
+                icon: 'pi pi-fw pi-book',
+                to: '/admin/enrollments'
+            },
+        ],
+        permissions: ['DIRECTOR']
+    },
+
 ]);
 const model = computed(() => {
     return baseModel.value.filter(section => {

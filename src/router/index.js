@@ -56,6 +56,22 @@ const router = createRouter({
                     meta: {
                         middleware: 'auth'
                     }
+                },
+                {
+                    path: '/admin/attendances',
+                    name: 'attendance',
+                    component: () => import('@/views/attendances/ListAttendance.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
+                {
+                    path: '/admin/enrollments',
+                    name: 'enrollments',
+                    component: () => import('@/views/enrollments/ListEnrollments.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
                 }
             ]
         },
