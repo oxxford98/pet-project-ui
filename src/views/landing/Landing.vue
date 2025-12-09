@@ -1,10 +1,34 @@
 <script setup lang="ts">
 import Header from '@/components/landing/Header.vue';
 import Footer from '@/components/landing/Footer.vue';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 // Variable reactiva que indica la sección actual (para referencia)
 const seccionActual = ref('inicio');
+
+// Galería de imágenes
+const imagenesGaleria = ref([
+    { src: '/src/assets/images/fondo.png', alt: 'Bienvenida CanEduca' },
+    { src: '/src/assets/images/galeria-terapia.png', alt: 'Terapia Canina' },
+    { src: '/src/assets/images/galeria-seguridad.png', alt: 'Entrenamiento de Seguridad' },
+    { src: '/src/assets/images/galeria-rescate.png', alt: 'Perros de Rescate' },
+    { src: '/src/assets/images/galeria-guia.png', alt: 'Perros Guía' },
+    { src: '/src/assets/images/galeria-competencia.png', alt: 'Competencias Caninas' },
+    { src: '/src/assets/images/galeria-piscina.jpg', alt: 'Perros en piscina' }
+]);
+
+const imagenActual = ref(0);
+let intervaloGaleria = null;
+
+// Función para cambiar automáticamente de imagen
+function cambiarImagenAutomatica() {
+    imagenActual.value = (imagenActual.value + 1) % imagenesGaleria.value.length;
+}
+
+// Función para ir a una imagen específica
+function irAImagen(index) {
+    imagenActual.value = index;
+}
 
 function cambiarSeccion(nombre) {
     seccionActual.value = nombre;
@@ -21,18 +45,56 @@ function cambiarSeccion(nombre) {
         });
     }
 }
+
+// Iniciar el intervalo cuando el componente se monta
+onMounted(() => {
+    intervaloGaleria = setInterval(cambiarImagenAutomatica, 6000); // Cambiar cada 4 segundos
+});
+
+// Limpiar el intervalo cuando el componente se desmonta
+onUnmounted(() => {
+    if (intervaloGaleria) {
+        clearInterval(intervaloGaleria);
+    }
+});
 </script>
 
 <template>
     <Header class="header" @cambiar-seccion="cambiarSeccion" />
     <!-- <Header @cambiar-seccion="cambiarSeccion" /> -->
 
-    <div class="text-center p-8 page">
-        <!-- Sección de Inicio -->
-        <section id="inicio" class="section-spacing">
+    <div class="text-center page">
+        <!-- Sección de Inicio con Galería -->
+        <section id="inicio" class="section-spacing px-4 sm:px-8">
             <h1 class="text-5xl font-bold titulo">Bienvenido a CanEduca</h1>
-            <p class="text-2xl mt-4">"Formamos vínculos, no solo obediencia."</p>
-            <img src="@/assets/images/fondo.png" alt="Fondo" class="mx-auto w-3/4 rounded mt-4" />
+            <p class="text-2xl mt-4 p-0">"Formamos vínculos, no solo obediencia."</p>
+            
+            <!-- Galería de imágenes automática -->
+            <div class="galeria-container mx-auto w-full px-4 sm:w-3/4 mt-2">
+                <div class="galeria-wrapper">
+                    <transition-group name="slide" tag="div" class="galeria-transition-group">
+                        <img 
+                            v-for="(imagen, index) in imagenesGaleria"
+                            v-show="index === imagenActual"
+                            :key="index"
+                            :src="imagen.src" 
+                            :alt="imagen.alt" 
+                            class="galeria-imagen rounded shadow-lg"
+                        />
+                    </transition-group>
+                </div>
+                
+                <!-- Indicadores de navegación -->
+                <div class="galeria-indicadores mt-4 flex justify-center gap-2">
+                    <button
+                        v-for="(imagen, index) in imagenesGaleria"
+                        :key="index"
+                        @click="irAImagen(index)"
+                        :class="['indicador', { 'activo': imagenActual === index }]"
+                        :aria-label="`Ir a imagen ${index + 1}`"
+                    ></button>
+                </div>
+            </div>
         </section>
 
         <!-- Sección de Quiénes Somos -->
@@ -259,7 +321,7 @@ function cambiarSeccion(nombre) {
 </template>
 <style>
 .section-spacing {
-    padding: 40px 0 60px 0;
+    padding: 10px 0 10px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -271,30 +333,145 @@ function cambiarSeccion(nombre) {
     border-radius: 8px 8px 0 0;
     margin-bottom: 1rem;
 }
+
 .titulo {
     box-sizing: border-box;
-    font-size: 3rem;
+    font-size: clamp(1.5rem, 5vw, 3rem);
     font-weight: bold;
     text-align: center;
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.1rem;
 }
+
 h2 {
     font-size: 1.5rem;
     text-align: center;
     margin-bottom: 2rem;
 }
+
 .header {
     box-sizing: content-box;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 50; /* asegurar que el header quede sobre el contenido */
+    z-index: 50;
 }
 
-/* Añadir espacio superior para que el contenido no quede detrás del header fijo */
 .page {
-    padding-top: 96px; /* ajusta según la altura real del header */
+    padding-top: 96px;
+    overflow-x: hidden;
+}
+
+/* Estilos para la galería */
+.galeria-container {
+    position: relative;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.galeria-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 250px;
+    max-height: 600px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.galeria-transition-group {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.galeria-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Animación de deslizamiento hacia la derecha */
+.slide-enter-active {
+    transition: transform 0.8s ease;
+    z-index: 2;
+}
+
+.slide-leave-active {
+    transition: transform 0.8s ease;
+    z-index: 1;
+}
+
+.slide-enter-from {
+    transform: translateX(-100%);
+}
+
+.slide-enter-to {
+    transform: translateX(0);
+}
+
+.slide-leave-from {
+    transform: translateX(0);
+}
+
+.slide-leave-to {
+    transform: translateX(100%);
+}
+
+/* Indicadores de navegación */
+.galeria-indicadores {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.indicador {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.indicador:hover {
+    background-color: #93c5fd;
+    transform: scale(1.2);
+}
+
+.indicador.activo {
+    background-color: #3b82f6;
+    transform: scale(1.3);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .page {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    .galeria-wrapper {
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .galeria-wrapper {
+        min-height: 180px;
+    }
+    
+    .titulo {
+        font-size: clamp(1.25rem, 4vw, 2rem);
+    }
 }
 </style>
+
