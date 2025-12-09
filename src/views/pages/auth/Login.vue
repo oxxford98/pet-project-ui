@@ -340,20 +340,23 @@ export default {
     </Dialog>
 
     <div
-        class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden"
+        class="flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden relative login-background"
     >
-        <div class="flex flex-col items-center justify-center">
+        <!-- Overlay oscuro semi-transparente -->
+        <div class="absolute inset-0 bg-black/40"></div>
+        
+        <div class="flex flex-col items-center justify-center relative z-10">
             <div
                 style="
-                    border-radius: 56px;
+                    border-radius: 20px;
                     padding: 0.3rem;
                     background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);
                 "
             >
-                <div class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20" style="border-radius: 53px">
+                <div class="w-full bg-white/80 dark:bg-surface-900/80 py-12 px-8 px-15 backdrop-blur-sm" style="border-radius: 20px">
                     <div class="flex flex-col items-center justify-center text-center mb-8">
-                        <img src="@/assets/images/logo.png" alt="Logo CanEduca" class="w-60 h-60 mb-4" />
-                        <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-2">Bienvenido!</div>
+                        <img src="@/assets/images/logo.png" alt="Logo CanEduca" class="w-60 h-60 mb-3" />
+                        <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-1">Bienvenido!</div>
                         <span class="text-muted-color font-medium">Inicia sesión para continuar</span>
                         <span class="text-muted-color font-medium">¿Aún no tienes una cuenta?
                             <router-link to="/auth/register" class="font-medium text-primary">Regístrate</router-link></span>
@@ -418,5 +421,12 @@ export default {
 .pi-eye-slash {
     transform: scale(1.6);
     margin-right: 1rem;
+}
+
+.login-background {
+    background-image: url('@/assets/images/perro2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 </style>
