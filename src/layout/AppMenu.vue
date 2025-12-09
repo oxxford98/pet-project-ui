@@ -1,15 +1,39 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '@/stores/auth.js';
 import AppMenuItem from './AppMenuItem.vue';
 
 const store = useAuthStore();
+const user = store.user.user;
 
-const model = ref([
+console.log('Usuario en AppMenu:', user);
+const roles = [
+    {
+        value: 2,
+        name: 'ADMIN'
+    },
+    {
+        value: 1,
+        name: 'DIRECTOR'
+    },
+    {
+        value: 3,
+        name: 'CLIENT'
+    }
+];
+const rol = roles.find(r => r.value === user.role);
+
+const baseModel = ref([
     {
         label: 'Inicio',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }],
+        permissions: ['ADMIN', 'DIRECTOR']
+    },
+    {
+        label: 'Inicio',
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard/client' }],
+        permissions: ['CLIENT']
     },
     {
         label: 'Usuarios',
@@ -23,8 +47,9 @@ const model = ref([
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-user',
                 to: '/admin/clients'
-            },
-        ]
+            }
+        ],
+        permissions: ['ADMIN', 'DIRECTOR']
     },
     {
         label: 'Perfil',
@@ -33,8 +58,9 @@ const model = ref([
                 label: 'Mi Perfil',
                 icon: 'pi pi-fw pi-id-card',
                 to: '/admin/profile'
-            },
-        ]
+            }
+        ],
+        permissions: ['CLIENT']
     },
     {
         label: 'Mascotas',
@@ -48,11 +74,42 @@ const model = ref([
                 label: 'Mis Mascotas',
                 icon: 'pi pi-fw pi-heart',
                 to: '/admin/pets'
-            },
-        ]
+            }
+        ],
+        permissions: ['CLIENT']
     },
-    
+    {
+        label: 'Asistencias',
+        items: [
+            {
+                label: 'Asistencias',
+                icon: 'pi pi-fw pi-check-square',
+                to: '/admin/attendances'
+            },
+        ],
+        permissions: ['ADMIN', 'DIRECTOR', 'TRAINER']
+    },
+    {
+        label: 'Matriculas',
+        items: [
+            {
+                label: 'Matriculas',
+                icon: 'pi pi-fw pi-book',
+                to: '/admin/enrollments'
+            },
+        ],
+        permissions: ['DIRECTOR']
+    },
+
 ]);
+const model = computed(() => {
+    return baseModel.value.filter(section => {
+        if (!section.permissions) {
+            return true;
+        }
+        return section.permissions.includes(rol.name);
+    });
+});
 </script>
 
 <template>

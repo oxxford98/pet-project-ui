@@ -1,9 +1,9 @@
-import { createPinia } from "pinia";
+import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
-import ApiService from "@/service/ApiService";
+import ApiService from '@/service/ApiService';
 import Aura from '@primeuix/themes/aura';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';

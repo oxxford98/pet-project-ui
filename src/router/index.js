@@ -1,11 +1,12 @@
 import AppLayout from '@/layout/AppLayout.vue';
+import { useAuthStore } from '@/stores/auth';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/dashboard',
+            path: '/admin',
             component: AppLayout,
             children: [
                 {
@@ -13,22 +14,23 @@ const router = createRouter({
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
-            ]
-        },
-         {
-            path: '/admin',
-            component: AppLayout,
-            children: [
-
+                 {
+                    path: '/dashboard/client',
+                    name: 'dashboard client',
+                    component: () => import('@/views/DashboardClient.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
                 {
                     path: '/admin/users',
                     name: 'users',
                     component: () => import('@/views/users/ListUsers.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -36,7 +38,7 @@ const router = createRouter({
                     name: 'profile',
                     component: () => import('@/views/users/ProfileUser.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -44,7 +46,7 @@ const router = createRouter({
                     name: 'new-pet',
                     component: () => import('@/views/pets/NewPet.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
                 {
@@ -52,21 +54,39 @@ const router = createRouter({
                     name: 'pets',
                     component: () => import('@/views/pets/ListPets.vue'),
                     meta: {
-                        middleware: "auth"
+                        middleware: 'auth'
                     }
                 },
-
+                {
+                    path: '/admin/enrollments/:canineId',
+                    name: 'enrollment-detail',
+                    component: () => import('@/views/pets/EnrollmentDetail.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
+                {
+                    path: '/admin/attendances',
+                    name: 'attendance',
+                    component: () => import('@/views/attendances/ListAttendance.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
+                {
+                    path: '/admin/enrollments',
+                    name: 'enrollments',
+                    component: () => import('@/views/enrollments/ListEnrollments.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                }
             ]
         },
         {
             path: '/',
             name: 'landing',
             component: () => import('@/views/landing/Landing.vue')
-        },
-        {
-            path: '/test',
-            name: 'test-landing',
-            component: () => import('@/views/landing/Test.vue')
         },
         // {
         //     path: '/contact',
@@ -100,6 +120,39 @@ const router = createRouter({
             component: () => import('@/views/pages/auth/Error.vue')
         }
     ]
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
+
+    // Set current page title
+    // document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_TITLE}`;
+
+    try {
+        await authStore.verifyAuth();
+        if (to.fullPath === '/auth/login') {
+            if (authStore.isAuthenticated) {
+                next({ name: 'dashboard' });
+            }
+        }
+        if (to.meta.middleware === 'auth') {
+            // If route requires authentication
+            if (!authStore.isAuthenticated) {
+                return next({ name: 'login' });
+            }
+        }
+
+        // Scroll page to top on every route change
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+
+        next();
+    } catch (error) {
+        next({ name: 'landing' });
+    }
 });
 
 export default router;

@@ -1,7 +1,7 @@
 <template>
     <Dialog
         v-model:visible="dialogVisible"
-        header="Planes de Matrícula"
+        header="Editar matrícula"
         modal
         :style="{ width: '70vw' }"
         :breakpoints="{ '1199px': '85vw', '575px': '95vw' }"
@@ -44,7 +44,13 @@
 
         <div v-else class="grid grid-cols-12 gap-4">
             <div v-for="plan in filteredPlans" :key="plan.id" class="col-span-12 md:col-span-6 xl:col-span-4">
-                <Card>
+                <Card
+                    :class="
+                        plan.id === currentPlanId
+                            ? 'ring-2 ring-primary-500 bg-primary-50 border border-primary-200'
+                            : ''
+                    "
+                >
                     <template #header>
                         <div class="p-4">
                             <div class="text-lg font-semibold">{{ plan.name }}</div>
@@ -72,11 +78,13 @@
                     <template #footer>
                         <div class="flex justify-end p-4">
                             <Button
-                                label="Matricular"
+                                :label="plan.id === currentPlanId ? 'Plan actual' : 'Cambiar a este plan'"
                                 icon="pi pi-check-circle"
-                                severity="success"
-                                :loading="enrollingId === plan.id"
-                                @click="enroll(plan)"
+                                :severity="plan.id === currentPlanId ? 'secondary' : 'success'"
+                                :disabled="plan.id === currentPlanId"
+                                :outlined="plan.id === currentPlanId"
+                                :loading="savingId === plan.id"
+                                @click="onSelect(plan)"
                             />
                         </div>
                     </template>
@@ -101,24 +109,25 @@ import FloatLabel from 'primevue/floatlabel';
 import Message from 'primevue/message';
 import ProgressSpinner from 'primevue/progressspinner';
 import ApiService from '@/service/ApiService';
-import { computed } from 'vue';
 
 export default {
-    name: 'PlanModal',
+    name: 'EditPlanModal',
     components: { Dialog, Card, Button, Select, FloatLabel, Message, ProgressSpinner },
     props: {
         visible: { type: Boolean, default: false },
-        petId: { type: Number, required: true }
+        enrollmentId: { type: Number, required: true },
+        currentPlanId: { type: Number, required: true },
+        currentPlan: { type: Object, default: null }
     },
-    emits: ['update:visible', 'enrolled', 'error'],
+    emits: ['update:visible', 'updated', 'error'],
     data() {
         return {
             loading: false,
+            savingId: null,
             plans: [],
-            enrollingId: null,
             filters: {
-                transport: 1, // por defecto: transporte completo
-                duration: null // todas las duraciones
+                transport: 1,
+                duration: null
             },
             transportOptions: [
                 { id: 1, label: 'Transporte completo' },
@@ -146,9 +155,7 @@ export default {
         },
         filteredPlans() {
             let out = this.plans.filter(p => p.transport_type === this.filters.transport);
-            if (this.filters.duration) {
-                out = out.filter(p => p.duration_days === this.filters.duration);
-            }
+            if (this.filters.duration) out = out.filter(p => p.duration_days === this.filters.duration);
             return out;
         }
     },
@@ -180,6 +187,11 @@ export default {
                 ApiService.setHeader();
                 const { data } = await ApiService.get('/plan/');
                 this.plans = Array.isArray(data) ? data : [];
+                // Prefiltrar con el plan actual si está disponible
+                if (this.currentPlan) {
+                    this.filters.transport = this.currentPlan.transport_type ?? 1;
+                    this.filters.duration = this.currentPlan.duration_days ?? null;
+                }
             } catch (e) {
                 console.error('Error cargando planes:', e);
                 this.$emit('error', 'No se pudieron cargar los planes');
@@ -187,27 +199,22 @@ export default {
                 this.loading = false;
             }
         },
-        async enroll(plan) {
-            if (!this.petId) return;
-            this.enrollingId = plan.id;
+        async onSelect(plan) {
+            if (plan.id === this.currentPlanId) return;
+            this.savingId = plan.id;
             try {
                 ApiService.setHeader();
-                await ApiService.post('/enrollment/', {
-                    plan: plan.id,
-                    canine: this.petId
-                });
-                this.$emit('enrolled', { planId: plan.id, petId: this.petId });
+                await ApiService.patch(`/enrollment/${this.enrollmentId}/`, { plan: plan.id });
+                this.$emit('updated', { planId: plan.id });
                 this.close();
             } catch (e) {
-                console.error('Error al matricular:', e);
-                this.$emit('error', 'No se pudo realizar la matrícula');
+                console.error('Error actualizando matrícula:', e);
+                this.$emit('error', 'No se pudo actualizar la matrícula');
             } finally {
-                this.enrollingId = null;
+                this.savingId = null;
             }
         },
-        onHide() {
-            // reset opcional al cerrar
-        },
+        onHide() {},
         close() {
             this.dialogVisible = false;
         }

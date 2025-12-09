@@ -1,0 +1,47 @@
+name: Code Quality Check
+
+# Ejecutar en push y pull requests a main y develop
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    # Checkout del código
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # Configurar Node.js
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    # Instalar dependencias
+    - name: Install dependencies
+      run: npm ci
+    
+    # Ejecutar linting (ESLint) - continuar con advertencias
+    - name: Run ESLint
+      run: npm run lint:check
+      continue-on-error: true
+    
+    # Verificar que el proyecto compile correctamente
+    - name: Build project
+      run: npm run build
+      continue-on-error: false
+    
+    # Opcional: Ejecutar Prettier para verificar formato
+    - name: Check code formatting
+      run: npx prettier --check "src/**/*.{vue,js,ts,json,css,scss}"
+      continue-on-error: true
