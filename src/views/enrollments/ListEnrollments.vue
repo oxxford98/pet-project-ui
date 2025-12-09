@@ -11,7 +11,7 @@
             <Card class="mb-4 bg-gray-50">
                 <template #content>
                     <div class="font-semibold text-lg mb-3">Filtros Avanzados</div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="flex flex-col gap-2">
                             <label for="sizeFilter" class="font-medium">Tamaño</label>
                             <Select
@@ -34,6 +34,33 @@
                                 class="w-full"
                             />
                         </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="planFilter" class="font-medium">Plan</label>
+                            <Select
+                                id="planFilter"
+                                v-model="filters.plan"
+                                :options="plans"
+                                option-label="name"
+                                option-value="id"
+                                placeholder="Seleccionar plan"
+                                filter
+                                show-clear
+                                class="w-full"
+                            >
+                                <template #option="slotProps">
+                                    <div class="flex flex-col">
+                                        <span class="font-semibold">{{ slotProps.option.name }}</span>
+                                        <span class="text-sm text-gray-600">
+                                            {{ formatPrice(slotProps.option.price) }} - 
+                                            {{ durationLabel(slotProps.option.duration_days) }} - 
+                                            {{ transportTypeLabel(slotProps.option.transport_type) }}
+                                        </span>
+                                    </div>
+                                </template>
+                            </Select>
+                        </div>
+
                         <div class="flex items-end">
                             <Button 
                                 label="Filtrar" 
@@ -139,6 +166,12 @@
             </DataTable>
         </template>
     </Card>
+    <EnrollmentModal
+        v-model:visible="showEditModal"
+        :enrollment-data="selectedEnrollment"
+        @saved="handleEnrollmentSaved"
+        @error="handleError"
+    />
 </template>
 
 <script>
@@ -153,6 +186,7 @@ import Toast from 'primevue/toast'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
+import EnrollmentModal from './components/EnrollmentModal.vue'
 
 ApiService.setHeader()
 
@@ -166,31 +200,51 @@ export default {
         Select,
         InputText,
         Toast,
-        ConfirmDialog
+        ConfirmDialog,
+        EnrollmentModal
     },
     data() {
         return {
             enrollments: [],
+            plans: [],
             toast: null,
             confirm: null,
             loading: false,
             filters: {
                 size: null,
-                breed: ''
+                breed: '',
+                plan: null
             },
             sizeOptions: [
                 { label: 'Pequeño', value: 1 },
                 { label: 'Mediano', value: 2 },
                 { label: 'Grande', value: 3 }
-            ]
+            ],
+            showEditModal: false,
+            selectedEnrollment: null
         }
     },
     mounted() {
         this.toast = useToast()
         this.confirm = useConfirm()
+        this.loadPlans()
         this.loadEnrollments()
     },
     methods: {
+        async loadPlans() {
+            try {
+                const { data } = await ApiService.get('/plan/')
+                this.plans = data
+            } catch (error) {
+                console.error('Error al cargar planes:', error)
+                this.toast.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'No se pudieron cargar los planes',
+                    life: 3000
+                })
+            }
+        },
         async loadEnrollments(filterPayload = null) {
             this.loading = true
             try {
@@ -224,6 +278,10 @@ export default {
             
             if (this.filters.breed && this.filters.breed.trim() !== '') {
                 payload.breed = this.filters.breed.trim()
+            }
+
+            if (this.filters.plan !== null && this.filters.plan !== undefined) {
+                payload.plan = this.filters.plan
             }
 
             // Call with payload (even if empty)
@@ -268,14 +326,8 @@ export default {
             return labels[type] || 'N/D'
         },
         openEditModal(enrollment) {
-            // TODO: Implement edit functionality
-            console.log('Edit enrollment:', enrollment)
-            this.toast.add({
-                severity: 'info',
-                summary: 'Información',
-                detail: 'Funcionalidad de edición por implementar',
-                life: 3000
-            })
+            this.selectedEnrollment = enrollment
+            this.showEditModal = true
         },
         confirmDeleteEnrollment(enrollment) {
             this.confirm.require({
@@ -285,7 +337,6 @@ export default {
                 acceptClass: 'p-button-danger',
                 accept: async () => {
                     try {
-                        // TODO: Implement delete endpoint
                         await ApiService.delete(`/enrollment/${enrollment.id}/`)
                         this.toast.add({
                             severity: 'success',
@@ -305,7 +356,25 @@ export default {
                     }
                 }
             })
+        },
+        handleEnrollmentSaved() {
+            this.toast.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Matrícula actualizada correctamente',
+                life: 3000
+            })
+            this.loadEnrollments()
+        },
+        handleError(message) {
+            this.toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: message,
+                life: 3000
+            })
         }
+        
     }
 }
 </script>

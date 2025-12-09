@@ -191,7 +191,12 @@ export default {
                             .then(({ data }) => {
                                 if (data.user) {
                                     this.store.getApiToken(data);
-                                    this.$router.push({ name: 'dashboard' });
+
+                                    if (data.user.role === 3) {
+                                        this.$router.push({ name: 'dashboard client' });
+                                    } else {
+                                        this.$router.push({ name: 'dashboard' });
+                                    }
                                 } else {
                                     this.statusButton = true;
                                     this.textLogin = 'Ingresar';

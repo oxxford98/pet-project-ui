@@ -27,7 +27,13 @@ const rol = roles.find(r => r.value === user.role);
 const baseModel = ref([
     {
         label: 'Inicio',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }],
+        permissions: ['ADMIN', 'DIRECTOR']
+    },
+    {
+        label: 'Inicio',
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard/client' }],
+        permissions: ['CLIENT']
     },
     {
         label: 'Usuarios',

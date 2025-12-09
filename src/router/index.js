@@ -17,6 +17,14 @@ const router = createRouter({
                         middleware: 'auth'
                     }
                 },
+                 {
+                    path: '/dashboard/client',
+                    name: 'dashboard client',
+                    component: () => import('@/views/DashboardClient.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
                 {
                     path: '/admin/users',
                     name: 'users',
