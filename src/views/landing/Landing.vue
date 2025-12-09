@@ -8,13 +8,13 @@ const seccionActual = ref('inicio');
 
 // Galería de imágenes
 const imagenesGaleria = ref([
-    { src: '/src/assets/images/fondo.png', alt: 'Bienvenida CanEduca' },
-    { src: '/src/assets/images/galeria-terapia.png', alt: 'Terapia Canina' },
-    { src: '/src/assets/images/galeria-seguridad.png', alt: 'Entrenamiento de Seguridad' },
-    { src: '/src/assets/images/galeria-rescate.png', alt: 'Perros de Rescate' },
-    { src: '/src/assets/images/galeria-guia.png', alt: 'Perros Guía' },
-    { src: '/src/assets/images/galeria-competencia.png', alt: 'Competencias Caninas' },
-    { src: '/src/assets/images/galeria-piscina.jpg', alt: 'Perros en piscina' }
+    { src: '/assets/images/fondo.png', alt: 'Bienvenida CanEduca' },
+    { src: '/assets/images/galeria-terapia.png', alt: 'Terapia Canina' },
+    { src: '/assets/images/galeria-seguridad.png', alt: 'Entrenamiento de Seguridad' },
+    { src: '/assets/images/galeria-rescate.png', alt: 'Perros de Rescate' },
+    { src: '/assets/images/galeria-guia.png', alt: 'Perros Guía' },
+    { src: '/assets/images/galeria-competencia.png', alt: 'Competencias Caninas' },
+    { src: '/assets/images/galeria-piscina.jpg', alt: 'Perros en piscina' }
 ]);
 
 const imagenActual = ref(0);
@@ -107,14 +107,14 @@ onUnmounted(() => {
                     sus perros de manera respetuosa y amorosa.
                 </p>
                 <img
-                    src="@/assets/images/perro1.jpg"
+                    src="/assets/images/perro1.jpg"
                     alt="Perro"
                     class="w-full md:w-1/2 rounded shadow-lg object-cover"
                 />
             </div>
             <div class="flex flex-col md:flex-row items-center gap-6 mt-3">
                 <img
-                    src="@/assets/images/perro2.jpg"
+                    src="/assets/images/perro2.jpg"
                     alt="Perro"
                     class="w-full md:w-1/2 rounded shadow-lg object-cover"
                 />
@@ -141,7 +141,7 @@ onUnmounted(() => {
             <div>
                 <!-- Imagen transporte a la izquierda -->
                 <div class="w-full md:w-1/2 mx-auto mb-6">
-                    <img src="@/assets/images/transporte.jpg" alt="Transporte" class="w-full h-64 md:h-auto object-cover rounded shadow-md" />
+                    <img src="/assets/images/transporte.jpg" alt="Transporte" class="w-full h-64 md:h-auto object-cover rounded shadow-md" />
                 </div>
 
                 <!-- Planes a la derecha -->
