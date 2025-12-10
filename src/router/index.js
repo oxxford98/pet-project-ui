@@ -80,7 +80,15 @@ const router = createRouter({
                     meta: {
                         middleware: 'auth'
                     }
-                }
+                },
+                {
+                    path: '/admin/clients',
+                    name: 'clients',
+                    component: () => import('@/views/users/ListClients.vue'),
+                    meta: {
+                        middleware: 'auth'
+                    }
+                },
             ]
         },
         {
