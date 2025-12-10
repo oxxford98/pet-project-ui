@@ -80,7 +80,7 @@ export default {
                     this.loadingReset = false;
                     this.showOtpInput = true;
                     this.resetSuccessMessage = 'Se ha enviado un código de verificación a tu correo electrónico';
-                    this.showResetSuccess = true;
+                    this.showResetSuccess = false;
                 })
                 .catch(error => {
                     this.loadingReset = false;
@@ -262,8 +262,12 @@ export default {
                 </Message>
             </div>
 
-            <!-- Mostrar campos solo si no se ha mostrado el éxito -->
+            <!-- Mostrar campos solo si no se ha completado el cambio exitosamente -->
             <div v-else>
+                <Message v-if="showResetSuccess" severity="success" class="mb-4">
+                    {{ resetSuccessMessage }}
+                </Message>
+
                 <p class="text-surface-500 dark:text-surface-400 mb-4">
                     Ingresa el código de 6 dígitos que enviamos a <strong>{{ resetEmail }}</strong> y tu nueva
                     contraseña
@@ -274,9 +278,10 @@ export default {
                     <InputOtp v-model="resetCode" :length="6" class="w-full" />
                 </div>
 
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-2 mt-2">
                     <label for="newPassword" class="font-semibold">Nueva Contraseña</label>
                     <Password
+                        fluid
                         id="newPassword"
                         v-model="newPassword"
                         placeholder="Nueva contraseña"
@@ -287,9 +292,10 @@ export default {
                     />
                 </div>
 
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-2 mt-2">
                     <label for="confirmNewPassword" class="font-semibold">Confirmar Nueva Contraseña</label>
                     <Password
+                        fluid
                         id="confirmNewPassword"
                         v-model="confirmNewPassword"
                         placeholder="Confirma tu nueva contraseña"
@@ -384,6 +390,7 @@ export default {
                             class="mb-4"
                             fluid
                             :feedback="false"
+                            @keyup.enter="attempLogin"
                         ></Password>
 
                         <div class="flex items-center justify-between mt-2 mb-8 gap-8">
