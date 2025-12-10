@@ -500,7 +500,7 @@ export default {
         
         async loadTopPlans() {
             try {
-                const { data } = await ApiService.get('/director/dashboard/top-plans')
+                const { data } = await ApiService.get('user/director-top-plans-enrollments')
                 
                 this.topPlansData.labels = data.map(item => item.plan_name)
                 this.topPlansData.datasets[0].data = data.map(item => item.enrollments_count)
@@ -512,7 +512,7 @@ export default {
         // Table Data Loaders
         async loadRecentEnrollments() {
             try {
-                const { data } = await ApiService.get('/director/dashboard/recent-enrollments?limit=10')
+                const { data } = await ApiService.get('/user/director-recent-enrollments')
                 this.recentEnrollments = data
             } catch (error) {
                 console.error('Error al cargar matrículas recientes:', error)
@@ -521,7 +521,7 @@ export default {
         
         async loadExpiringEnrollments() {
             try {
-                const { data } = await ApiService.get('/director/dashboard/expiring-enrollments?limit=10')
+                const { data } = await ApiService.get('/user/director-next-expiring-enrollments')
                 this.expiringEnrollments = data
             } catch (error) {
                 console.error('Error al cargar matrículas por vencer:', error)
@@ -530,7 +530,7 @@ export default {
         
         async loadTopClients() {
             try {
-                const { data } = await ApiService.get('/director/dashboard/top-clients?limit=10')
+                const { data } = await ApiService.get('user/director-top-clients-with-pets')
                 this.topClients = data
             } catch (error) {
                 console.error('Error al cargar top clientes:', error)
@@ -539,7 +539,7 @@ export default {
         
         async loadIncomeByPlan() {
             try {
-                const { data } = await ApiService.get('/director/dashboard/income-by-plan')
+                const { data } = await ApiService.get('user/director-top-plans-by-income')
                 this.incomeByPlan = data
             } catch (error) {
                 console.error('Error al cargar ingresos por plan:', error)
